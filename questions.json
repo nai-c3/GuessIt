@@ -1,0 +1,17 @@
+{
+  "questions": [
+    { "question": "In welchem Jahr wurde „Stille Nacht, heilige Nacht“ zum ersten Mal aufgeführt?", "answer": 1818, "maxDeviation": 60, "format": "year", "unit": "", "info": "Heiligabend 1818 in Oberndorf bei Salzburg." },
+    { "question": "Wie hoch ist der Kölner Dom?", "answer": 157, "unit": "Meter", "info": "Genau 157,18 m – bis 1884 das höchste Gebäude der Welt." },
+    { "question": "Wie viele Tasten hat ein klassisches Klavier?", "answer": 88, "unit": "Tasten", "info": "52 weiße und 36 schwarze." },
+    { "question": "In welchem Jahr erschien „Last Christmas“ von Wham!?", "answer": 1984, "maxDeviation": 20, "format": "year", "unit": "", "info": "Und seitdem jedes Jahr wieder." },
+    { "question": "Wie weit ist der Mond im Durchschnitt von der Erde entfernt?", "answer": 384400, "unit": "km" },
+    { "question": "LIVE: Wie viele Sekunden braucht unser Freiwilliger, um ein Geschenk komplett einzupacken?", "live": true, "unit": "Sekunden", "time": 40 },
+    { "question": "Aus wie vielen Knochen besteht das Skelett eines Erwachsenen?", "answer": 206, "unit": "Knochen", "info": "Babys haben noch rund 300 – viele wachsen später zusammen." },
+    { "question": "Wie hoch ist die Zugspitze?", "answer": 2962, "unit": "Meter" },
+    { "question": "Wie viele Staaten sind Mitglied der Vereinten Nationen?", "answer": 193, "unit": "Staaten" },
+    { "question": "Wie viele Sekunden hat ein Tag?", "answer": 86400, "unit": "Sekunden" },
+    { "question": "Wie lang ist der Rhein?", "answer": 1233, "unit": "km" },
+    { "question": "Wie viele Stufen führen im Eiffelturm bis ganz nach oben?", "answer": 1665, "unit": "Stufen", "info": "Für Besucher sind nur 674 bis zur 2. Etage freigegeben." },
+    { "question": "Wie lang ist der Äquator?", "answer": 40075, "unit": "km" }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "guess-it",
+  "version": "1.0.0",
+  "description": "GUESS IT – Live-Schätzspiel für die c3 Weihnachtsfeier",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nai-c3/GuessIt.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nai-c3/GuessIt/issues"
+  },
+  "homepage": "https://github.com/nai-c3/GuessIt#readme",
+  "dependencies": {
+    "express": "^4.22.3",
+    "qrcode": "^1.5.4",
+    "socket.io": "^4.8.4"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "private": true
+}

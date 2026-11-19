@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GUESS IT · Leinwand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/host.css">
+</head>
+<body class="host">
+  <canvas class="snow" id="snow"></canvas>
+  <div class="spotlight" id="spotlight"></div>
+
+  <div class="host-app">
+    <div class="topbar">
+      <div class="logo"><span class="g">Guess</span><span class="i">it</span></div>
+      <div class="segments hidden" id="segments"></div>
+      <div class="count" id="count"></div>
+    </div>
+    <div class="stage" id="stage"></div>
+  </div>
+
+  <div class="dock hidden" id="dock">
+    <button class="btn ghost hidden" id="addTime" title="15 Sekunden mehr">+15 s</button>
+    <button class="btn" id="next">Weiter</button>
+    <button class="btn ghost icon" id="menuBtn" title="Menü">☰</button>
+  </div>
+  <div class="menu hidden" id="menu">
+    <button id="mFullscreen">Vollbild (F)</button>
+    <button id="mSound">Ton aus (M)</button>
+    <button id="mFix" class="hidden">Live-Antwort korrigieren</button>
+    <button id="mReplay" class="hidden">Finale wiederholen</button>
+    <div class="sep"></div>
+    <button id="mRestart">Neues Spiel – Spieler behalten</button>
+    <button id="mReset" class="danger">Alles zurücksetzen</button>
+  </div>
+
+  <div class="auth hidden" id="auth">
+    <form class="card" id="authForm">
+      <div class="logo" style="font-size:40px"><span class="g">Guess</span><span class="i">it</span></div>
+      <p class="muted">Host-Schlüssel eingeben (steht beim Serverstart in der Konsole):</p>
+      <input class="input" id="authKey" autocomplete="off" placeholder="Schlüssel">
+      <button class="btn" type="submit">Als Host verbinden</button>
+      <p class="error" id="authErr"></p>
+    </form>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/common.js"></script>
+  <script src="/host.js"></script>
+</body>
+</html>
