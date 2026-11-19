@@ -4,7 +4,7 @@ services:
     name: guess-it
     runtime: node
     region: frankfurt
-    plan: starter          # "free" geht auch, schläft aber nach 15 Min. ohne Besucher ein
+    plan: free             # schläft nach 15 Min. ohne Besucher ein -> UptimeRobot alle 5 Min. pingen lassen
     buildCommand: npm ci
     startCommand: npm start
     envVars:

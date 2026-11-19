@@ -36,7 +36,7 @@ GUESS IT braucht einen laufenden Node-Server, weil alle Handys per WebSocket liv
 3. Nach dem Deploy im Dienst unter **Environment** den generierten `HOST_KEY` ablesen.
 4. Leinwand: `https://<dienst>.onrender.com/host?key=<HOST_KEY>`. Der QR-Code zeigt automatisch die richtige Adresse.
 
-Tarif: `starter` (kostenpflichtig, läuft durchgehend). Mit `free` schläft der Dienst nach 15 Minuten ohne Besucher ein, und der erste Aufruf dauert dann rund eine Minute. Wer `free` nimmt, öffnet die Leinwand 10 Minuten vor Spielbeginn. **Nicht während des Spiels neu deployen:** Der Spielstand liegt nur im Arbeitsspeicher und wäre weg.
+Tarif: `free` (kostenlos). Der Dienst schläft nach 15 Minuten ohne Besucher ein, der erste Aufruf dauert dann rund eine Minute. Dagegen hilft ein kostenloser Monitor bei [UptimeRobot](https://uptimerobot.com): HTTP-Monitor auf die `onrender.com`-Adresse, Intervall 5 Minuten. Wer ganz sichergehen will, stellt in `render.yaml` auf `plan: starter` (kostenpflichtig) um. **Nicht während des Spiels neu deployen:** Der Spielstand liegt nur im Arbeitsspeicher und wäre weg.
 
 ### Notlösung: Laptop + Tunnel
 
@@ -45,7 +45,7 @@ npm start
 npx cloudflared tunnel --url http://localhost:3000   # oder: cloudflared installieren
 ```
 
-Cloudflare gibt eine `https://…trycloudflare.com`-Adresse aus. Mit `PUBLIC_URL=<diese Adresse> npm start` zeigt der QR-Code darauf. Das funktioniert auch über Mobilfunk, hängt aber an Laptop und WLAN vor Ort.
+Cloudflare gibt eine `https://…trycloudflare.com`-Adresse aus. Die Leinwand über diese Adresse öffnen (nicht über `localhost`), dann zeigt der QR-Code automatisch darauf. Das funktioniert auch über Mobilfunk, hängt aber an Laptop und WLAN vor Ort.
 
 ### Nur im lokalen WLAN
 
