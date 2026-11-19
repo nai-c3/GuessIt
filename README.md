@@ -36,7 +36,7 @@ GUESS IT braucht einen laufenden Node-Server, weil alle Handys per WebSocket liv
 3. Nach dem Deploy im Dienst unter **Environment** den generierten `HOST_KEY` ablesen.
 4. Leinwand: `https://<dienst>.onrender.com/host?key=<HOST_KEY>`. Der QR-Code zeigt automatisch die richtige Adresse.
 
-Tarif: `free` (kostenlos). Der Dienst schläft nach 15 Minuten ohne Besucher ein, der erste Aufruf dauert dann rund eine Minute. Dagegen hilft ein kostenloser Monitor bei [UptimeRobot](https://uptimerobot.com): HTTP-Monitor auf die `onrender.com`-Adresse, Intervall 5 Minuten. Wer ganz sichergehen will, stellt in `render.yaml` auf `plan: starter` (kostenpflichtig) um. **Nicht während des Spiels neu deployen:** Der Spielstand liegt nur im Arbeitsspeicher und wäre weg.
+Tarif: `starter` (kostenpflichtig, läuft durchgehend, wird anteilig abgerechnet). Nach der Feier den Dienst im Dashboard löschen, dann fallen keine weiteren Kosten an. Für eine Gratis-Variante auf `plan: free` umstellen: Der Dienst schläft dann nach 15 Minuten ohne Besucher ein, ein [UptimeRobot](https://uptimerobot.com)-Monitor alle 5 Minuten hält ihn wach. **Nicht während des Spiels neu deployen:** Der Spielstand liegt nur im Arbeitsspeicher und wäre weg.
 
 ### Notlösung: Laptop + Tunnel
 
