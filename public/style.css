@@ -1,18 +1,42 @@
-/* GUESS IT – Basis-Styles (Spieler + Host) */
+/* GUESS IT – Basis-Styles (Spieler + Host)
+ *
+ * MARKE: Alle Farben, Schriften und Radien hängen an den Tokens in diesem
+ * :root-Block. Für das c3-Design nur hier die CI-Werte eintragen
+ * (und ggf. die Schrift-<link>s in index.html / host.html tauschen).
+ */
 :root {
-  --night: #070e22;
-  --navy: #0d1a3a;
-  --navy-2: #15264f;
+  /* Flächen */
+  --bg: #0b1226;            /* Seitenhintergrund */
+  --surface: #141d36;       /* Karten, Zeilen */
+  --surface-2: #1c2746;     /* Menüs, Hover */
   --line: rgba(255, 255, 255, 0.12);
-  --gold: #f6c945;
-  --gold-2: #ffe9a3;
-  --red: #e8424f;
-  --green: #3fbf7f;
+  /* Text */
   --text: #f4f6ff;
   --muted: #9aa6c8;
-  --radius: 18px;
+  /* Marke */
+  --brand: #f6c945;         /* Hauptakzent: Buttons, Antwort, Fortschritt */
+  --brand-ink: #1a1405;     /* Text auf --brand */
+  --brand-soft: #ffe9a3;    /* heller Akzent für Hinweise */
+  --accent: #e8424f;        /* Zweitakzent: richtige Antwort am Zahlenstrahl, Dringlichkeit */
+  --ok: #3fbf7f;            /* Bestätigung */
+  /* Podest */
+  --medal-1: #e2b23a;
+  --medal-2: #b9c2cf;
+  --medal-3: #c07a3c;
+  /* Form */
+  --r-sm: 4px;
+  --r-md: 8px;
+  /* Schrift */
   --font: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --display: 'Bricolage Grotesque', 'Outfit', system-ui, sans-serif;
+
+  /* Aliase (intern) */
+  --gold: var(--brand);
+  --gold-2: var(--brand-soft);
+  --red: var(--accent);
+  --green: var(--ok);
+  --navy-2: var(--surface-2);
+  --radius: var(--r-md);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -20,8 +44,7 @@ html, body { height: 100%; }
 body {
   font-family: var(--font);
   color: var(--text);
-  background: radial-gradient(120% 80% at 50% 0%, #1b2f63 0%, var(--navy) 45%, var(--night) 100%) fixed;
-  background-color: var(--night);
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -45,7 +68,6 @@ button, input { font: inherit; color: inherit; }
 .logo .g { color: var(--text); }
 .logo .i {
   color: var(--gold);
-  text-shadow: 0 0 0.35em rgba(246, 201, 69, 0.45);
 }
 .logo .q { color: var(--red); margin-left: -0.08em; }
 
@@ -55,24 +77,24 @@ button, input { font: inherit; color: inherit; }
   font-weight: 600; color: var(--muted); font-size: 14px;
 }
 .progress-track {
-  flex: 1; height: 8px; border-radius: 99px; background: rgba(255, 255, 255, 0.1); overflow: hidden;
+  flex: 1; height: 8px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); overflow: hidden;
 }
 .progress-fill {
   height: 100%; border-radius: inherit;
-  background: linear-gradient(90deg, var(--red), var(--gold));
+  background: var(--brand);
   transition: width 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* Buttons */
 .btn {
   appearance: none; border: 0; cursor: pointer;
-  background: var(--gold); color: #1a1405;
+  background: var(--brand); color: var(--brand-ink);
   font-weight: 800; font-size: 18px; letter-spacing: 0.01em;
-  padding: 16px 24px; border-radius: 14px;
-  box-shadow: 0 6px 0 #b48a12, 0 12px 30px rgba(246, 201, 69, 0.25);
+  padding: 16px 24px; border-radius: var(--r-md);
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--brand) 55%, #000);
   transition: transform 0.08s ease, box-shadow 0.08s ease, opacity 0.2s;
 }
-.btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #b48a12; }
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 color-mix(in srgb, var(--brand) 55%, #000); }
 .btn:disabled { opacity: 0.5; cursor: default; }
 .btn.ghost {
   background: transparent; color: var(--text);
@@ -94,7 +116,7 @@ button, input { font: inherit; color: inherit; }
 .player header .logo { font-size: 22px; }
 .player .me-chip {
   font-size: 13px; font-weight: 600; color: var(--muted);
-  padding: 6px 10px; border: 1px solid var(--line); border-radius: 99px;
+  padding: 6px 10px; border: 1px solid var(--line); border-radius: 2px;
   max-width: 55%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .player .progress { margin-top: 14px; }
@@ -107,7 +129,7 @@ button, input { font: inherit; color: inherit; }
 
 .field label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--muted); font-size: 14px; }
 .input {
-  width: 100%; padding: 18px 18px; border-radius: 14px;
+  width: 100%; padding: 18px 18px; border-radius: var(--r-md);
   background: rgba(255, 255, 255, 0.06); border: 1.5px solid var(--line);
   font-size: 22px; font-weight: 600; outline: none;
   transition: border-color 0.2s, background 0.2s;
@@ -117,7 +139,7 @@ button, input { font: inherit; color: inherit; }
 .error { color: #ff8a93; font-weight: 600; min-height: 1.2em; font-size: 15px; text-align: center; }
 
 .card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03));
+  background: var(--surface);
   border: 1px solid var(--line); border-radius: var(--radius);
   padding: 20px;
 }
@@ -127,26 +149,26 @@ button, input { font: inherit; color: inherit; }
 .unit-hint { color: var(--muted); text-align: center; font-weight: 600; margin-top: 8px; min-height: 1.3em; }
 .preview { color: var(--gold-2); text-align: center; font-weight: 600; min-height: 1.3em; }
 
-.timer-bar { height: 6px; border-radius: 99px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
+.timer-bar { height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
 .timer-bar > div { height: 100%; background: var(--gold); border-radius: inherit; transform-origin: left; }
 .timer-bar.urgent > div { background: var(--red); }
 
 .saved {
   display: flex; align-items: center; gap: 14px;
-  padding: 16px 18px; border-radius: 14px;
-  background: rgba(63, 191, 127, 0.12); border: 1px solid rgba(63, 191, 127, 0.4);
+  padding: 16px 18px; border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--ok) 12%, transparent); border: 1px solid color-mix(in srgb, var(--ok) 40%, transparent);
 }
-.saved .check { width: 34px; height: 34px; border-radius: 50%; background: var(--green); display: grid; place-items: center; color: #062; font-weight: 900; flex: none; }
+.saved .check { width: 34px; height: 34px; border-radius: 50%; background: var(--ok); display: grid; place-items: center; color: var(--bg); font-weight: 900; flex: none; }
 .saved .val { font-size: 22px; font-weight: 800; }
 .saved .lbl { font-size: 13px; color: var(--muted); }
 
 .big-num { font-family: var(--display); font-size: clamp(44px, 14vw, 72px); font-weight: 800; line-height: 1; }
 .big-num.gold { color: var(--gold); }
 .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.stat { padding: 14px; border-radius: 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--line); text-align: center; }
+.stat { padding: 14px; border-radius: var(--r-md); background: rgba(255, 255, 255, 0.05); border: 1px solid var(--line); text-align: center; }
 .stat .v { font-size: 24px; font-weight: 800; }
 .stat .l { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
-.points-badge { display: inline-block; padding: 8px 16px; border-radius: 99px; background: var(--gold); color: #1a1405; font-weight: 900; font-size: 22px; }
+.points-badge { display: inline-block; padding: 8px 16px; border-radius: 2px; background: var(--brand); color: var(--brand-ink); font-weight: 900; font-size: 22px; }
 .move { font-weight: 800; font-size: 18px; }
 .move.up { color: var(--green); }
 .move.down { color: #ff8a93; }
@@ -161,8 +183,14 @@ button, input { font: inherit; color: inherit; }
 .offline-banner {
   position: fixed; left: 50%; top: 10px; transform: translateX(-50%); z-index: 50;
   background: var(--red); color: #fff; font-weight: 700; font-size: 14px;
-  padding: 8px 14px; border-radius: 99px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  padding: 8px 14px; border-radius: 2px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 .pulse { animation: pulse 1.6s infinite ease-in-out; }
 @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+/* Bewegung reduzieren, wenn das Gerät es wünscht */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .snow { display: none; }
+}

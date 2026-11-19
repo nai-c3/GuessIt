@@ -84,6 +84,10 @@ Zeiten lassen sich auch als `1:20` eingeben (= 80 Sekunden), sowohl von Spielern
 
 Die Konstanten stehen oben in `server.js`.
 
+## Design / Marke anpassen
+
+Alle Farben, Radien und Schriften hängen an den Tokens im `:root`-Block oben in `public/style.css` (`--brand`, `--accent`, `--bg`, `--surface`, `--medal-1..3`, `--font`, `--display` …). Für die c3-CI reicht es, dort die Werte einzutragen und gegebenenfalls die Google-Fonts-`<link>`s in `public/index.html` und `public/host.html` zu tauschen. Auch das Konfetti nimmt die Farben automatisch aus den Tokens.
+
 ## Hinweise
 
 - Die mitgelieferten 13 Fragen sind Beispiele (allgemeines Wissen + 1 Live-Frage). Am meisten Spaß machen c3-eigene Fragen.

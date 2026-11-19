@@ -112,7 +112,7 @@
       lobby: '▶ Spiel starten',
       question: 'Frage beenden',
       awaiting: '',
-      reveal: qIndex >= total - 1 ? '🏆 Zum Finale' : 'Zwischenstand',
+      reveal: qIndex >= total - 1 ? 'Zum Finale' : 'Zwischenstand',
       leaderboard: `Frage ${qIndex + 2} ▶`,
       final: '',
     };
@@ -175,7 +175,7 @@
     const left = el('div');
     const logo = el('div', 'logo big-logo');
     logo.append(el('span', 'g', 'Guess'), el('span', 'i', 'it'));
-    const sub = el('div', 'sub', 'Das große Schätzspiel der c3 Weihnachtsfeier 🎄');
+    const sub = el('div', 'sub', 'Das große Schätzspiel der c3 Weihnachtsfeier');
     const url = el('div', 'url', joinUrl ? prettyUrl(joinUrl) : '');
     url.id = 'joinUrl';
     left.append(logo, sub, url);
@@ -186,7 +186,7 @@
     img.src = '/qr.svg?t=' + Date.now();
     img.alt = 'QR-Code zum Mitspielen';
     qr.appendChild(img);
-    qrCol.append(qr, el('div', 'hint', '📱 Scannen & mitspielen'));
+    qrCol.append(qr, el('div', 'hint', 'Mit dem Handy scannen und mitspielen'));
 
     const top = el('div', 'lobby');
     top.append(left, qrCol);
@@ -215,6 +215,17 @@
       }
       chip.classList.toggle('offline', !p.online);
     }
+    // Nicht alle Namen passen auf die Leinwand: ältere ausblenden und zählen
+    const MAX_CHIPS = 40;
+    let more = chips.querySelector('.chip.more');
+    const named = [...chips.querySelectorAll('.chip:not(.more)')];
+    named.forEach((c, i) => c.classList.toggle('hidden', i >= MAX_CHIPS));
+    const hiddenCount = Math.max(0, named.length - MAX_CHIPS);
+    if (hiddenCount > 0) {
+      if (!more) { more = el('div', 'chip more'); chips.appendChild(more); }
+      more.textContent = `+${hiddenCount} weitere`;
+      chips.appendChild(more);
+    } else if (more) more.remove();
   }
 
   // ---- Frage --------------------------------------------------------------
@@ -272,7 +283,7 @@
     head.append(el('div', 'h-kicker', `Frage ${state.qIndex + 1} · Live-Auflösung`));
     const center = el('div', 'q-center');
     center.append(el('div', 'h-title', q.question));
-    const sub = el('div', 'unit', `${state.answeredCount} Schätzungen abgegeben – jetzt wird's live ermittelt! 🎬`);
+    const sub = el('div', 'unit', `${state.answeredCount} Schätzungen abgegeben – jetzt wird's live ermittelt`);
     center.append(sub);
 
     const form = el('form', 'live-form');
@@ -326,7 +337,7 @@
     if (run !== sceneRun) return;
 
     if (res.entries.length === 0) {
-      bottom.replaceChildren(el('div', 'nobody', 'Niemand hat geschätzt 🤷'));
+      bottom.replaceChildren(el('div', 'nobody', 'Niemand hat geschätzt'));
       bottom.style.gridTemplateColumns = '1fr';
       return;
     }
@@ -334,14 +345,13 @@
     await sleep(Math.min(1500, res.entries.length * 40) + 600);
     if (run !== sceneRun) return;
 
-    const medals = ['🥇', '🥈', '🥉'];
     res.entries.filter((e) => e.place <= 3).slice(0, 5).forEach((e, i) => {
       const row = el('div', 'row');
       row.style.animationDelay = `${i * 0.35}s`;
       const mid = el('div');
       mid.style.minWidth = '0';
       mid.append(el('div', 'name', e.name), el('div', 'guess', `Schätzung: ${fmtQ(e.guess, q)}`));
-      row.append(el('div', 'medal', medals[e.place - 1] || ''), mid, el('div', 'pts', `+${fmt(e.points)}`));
+      row.append(el('div', `place m${e.place}`, String(e.place)), mid, el('div', 'pts', `+${fmt(e.points)}`));
       closest.appendChild(row);
       setTimeout(() => { if (run === sceneRun) sound.pop(); }, i * 350);
     });
@@ -466,7 +476,6 @@
       const pod = el('div', `pod p${place}`);
       const who = el('div', 'who');
       who.append(
-        el('div', 'medal', ['🥇', '🥈', '🥉'][place - 1]),
         el('div', 'nm', p ? p.name : '—'),
         el('div', 'pt', p ? `${fmt(p.score)} Punkte` : ''),
       );
@@ -535,7 +544,7 @@
     sound.crash();
     sound.fanfare();
     const banner = el('div', 'winner-banner');
-    banner.append(el('div', 'h-kicker', 'Gewinner:in von GUESS IT'), el('div', 'h-title', `🏆 ${top3[0].name}`));
+    banner.append(el('div', 'h-kicker', 'Gewinner:in von GUESS IT'), el('div', 'h-title', top3[0].name));
     stage.querySelector('.final-scene').appendChild(banner);
     requestAnimationFrame(() => banner.classList.add('show'));
     const cx = (r1.left + r1.width / 2) / innerWidth;

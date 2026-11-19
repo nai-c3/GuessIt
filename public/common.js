@@ -32,6 +32,8 @@
     return e;
   };
 
+  const reducedMotion = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   // Zahl hochzählen lassen
@@ -54,6 +56,7 @@
   // Schnee im Hintergrund
   // -------------------------------------------------------------------------
   function snow(canvas, density = 1) {
+    if (reducedMotion()) return;
     const ctx = canvas.getContext('2d');
     let w, h, flakes = [];
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -90,8 +93,15 @@
   // Konfetti
   // -------------------------------------------------------------------------
   let confettiCanvas, confettiCtx, confettiParts = [], confettiRunning = false;
-  const CONFETTI_COLORS = ['#f6c945', '#ffe9a3', '#e8424f', '#ffffff', '#3fbf7f', '#7fb4ff'];
+  // Konfetti-Farben kommen aus den Marken-Tokens in style.css
+  function confettiColors() {
+    const cs = getComputedStyle(document.documentElement);
+    const c = ['--brand', '--brand-soft', '--accent', '--text', '--medal-2'].map((v) => cs.getPropertyValue(v).trim()).filter(Boolean);
+    return c.length ? c : ['#ffffff'];
+  }
   function confetti(amount = 160, origin = { x: 0.5, y: 0.35 }) {
+    if (reducedMotion()) return;
+    const CONFETTI_COLORS = confettiColors();
     if (!confettiCanvas) {
       confettiCanvas = el('canvas', 'confetti-canvas');
       document.body.appendChild(confettiCanvas);

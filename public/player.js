@@ -60,7 +60,7 @@
     progress.classList.add('hidden');
     const logo = el('div', 'logo hero-logo');
     logo.append(el('span', 'g', 'Guess'), el('span', 'i', 'it'));
-    const tag = el('p', 'tagline', 'Das Schätzspiel der c3 Weihnachtsfeier 🎄');
+    const tag = el('p', 'tagline', 'Das Schätzspiel der c3 Weihnachtsfeier');
 
     const form = el('form', 'card');
     const field = el('div', 'field');
@@ -129,7 +129,7 @@
     const card = el('div', 'card center');
     card.append(
       el('div', 'kicker', 'Du bist dabei'),
-      el('div', 'q-text', `Hallo ${state.me.name}! 👋`),
+      el('div', 'q-text', `Hallo ${state.me.name}!`),
     );
     const dots = el('div', 'wait-dots center');
     dots.innerHTML = '<span></span><span></span><span></span>';
@@ -220,7 +220,7 @@
 
     const change = el('button', 'btn ghost block', 'Antwort ändern');
     change.addEventListener('click', () => { editing = true; renderedKey = null; render(); });
-    const wait = el('p', 'tagline', 'Warte auf die anderen… 👀');
+    const wait = el('p', 'tagline', 'Warte auf die anderen …');
 
     setView('a', [head, timerBar(), saved, change, wait]);
   }
@@ -228,11 +228,11 @@
   function renderAwaiting() {
     const q = state.question;
     const head = el('div', 'center');
-    head.append(el('div', 'kicker', 'Live-Auflösung'), el('div', 'q-text pulse', 'Jetzt wird es vor Ort ermittelt – schaut nach vorne! 👀'));
+    head.append(el('div', 'kicker', 'Live-Auflösung'), el('div', 'q-text pulse', 'Jetzt wird es vor Ort ermittelt. Schaut nach vorne!'));
     head.lastChild.style.marginTop = '10px';
     const card = el('div', 'card center');
     if (state.me.answer != null) card.append(el('div', 'muted', 'Deine Schätzung'), el('div', 'big-num gold', fmtFor(q)(state.me.answer)), el('div', 'muted', q.unit || ''));
-    else card.append(el('div', 'q-text', 'Diesmal keine Schätzung 😴'));
+    else card.append(el('div', 'q-text', 'Diesmal keine Schätzung'));
     setView('awaiting', [head, card]);
   }
 
@@ -248,7 +248,7 @@
 
     const card = el('div', 'card center');
     if (me.lastGuess == null) {
-      card.append(el('div', 'q-text', 'Keine Schätzung abgegeben 😴'), el('p', 'muted', 'Bei der nächsten Frage bist du wieder dabei!'));
+      card.append(el('div', 'q-text', 'Keine Schätzung abgegeben'), el('p', 'muted', 'Bei der nächsten Frage bist du wieder dabei!'));
     } else {
       const stats = el('div', 'stat-row');
       const s1 = el('div', 'stat'); s1.append(el('div', 'v', fmtFor(q)(me.lastGuess)), el('div', 'l', 'Deine Schätzung'));
@@ -287,18 +287,17 @@
   function renderFinal() {
     const me = state.me;
     const logo = el('div', 'center');
-    logo.append(el('div', 'kicker', 'Das große Finale'), el('div', 'q-text pulse', 'Alle Augen auf die Leinwand! 🥁'));
+    logo.append(el('div', 'kicker', 'Das große Finale'), el('div', 'q-text pulse', 'Alle Augen auf die Leinwand!'));
     const dots = el('div', 'wait-dots center');
     dots.innerHTML = '<span></span><span></span><span></span>';
     const screen = setView('final', [logo, dots]);
 
     finalTimeout = setTimeout(() => {
-      const medal = me.rank === 1 ? '🏆' : me.rank === 2 ? '🥈' : me.rank === 3 ? '🥉' : '🎄';
       const head = el('div', 'center');
-      head.append(el('div', 'big-num', medal), el('div', 'kicker', 'Dein Endergebnis'), el('div', 'big-num gold', `Platz ${me.rank}`));
+      head.append(el('div', 'kicker', 'Dein Endergebnis'), el('div', 'big-num gold', `Platz ${me.rank}`));
       const card = el('div', 'card center');
       card.append(el('div', 'big-num', fmt(me.score)), el('div', 'muted', 'Punkte'));
-      const msg = el('p', 'tagline', me.rank === 1 ? 'Schätz-Champion! Glückwunsch! 🎉' : me.rank <= 3 ? 'Aufs Treppchen geschätzt! 🎉' : 'Danke fürs Mitspielen & frohe Weihnachten! 🎅');
+      const msg = el('p', 'tagline', me.rank === 1 ? 'Schätz-Champion. Glückwunsch!' : me.rank <= 3 ? 'Aufs Treppchen geschätzt!' : 'Danke fürs Mitspielen und frohe Weihnachten!');
       screen.replaceChildren(head, card, msg);
       if (me.rank <= 3) { confetti(200); setTimeout(() => confetti(150, { x: 0.2, y: 0.4 }), 500); setTimeout(() => confetti(150, { x: 0.8, y: 0.4 }), 900); }
     }, FINAL_DURATION);
