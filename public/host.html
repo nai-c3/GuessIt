@@ -6,17 +6,16 @@
   <title>GUESS IT · Leinwand</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Unbounded:wght@500..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/host.css">
 </head>
 <body class="host">
-  <canvas class="snow" id="snow"></canvas>
   <div class="spotlight" id="spotlight"></div>
 
   <div class="host-app">
     <div class="topbar">
-      <div class="logo"><span class="g">Guess</span><span class="i">it</span></div>
+      <div class="logo" data-blob-logo></div>
       <div class="segments hidden" id="segments"></div>
       <div class="count" id="count"></div>
     </div>
@@ -40,7 +39,7 @@
 
   <div class="auth hidden" id="auth">
     <form class="card" id="authForm">
-      <div class="logo" style="font-size:40px"><span class="g">Guess</span><span class="i">it</span></div>
+      <div class="logo" data-blob-logo style="width:220px"></div>
       <p class="muted">Host-Schlüssel eingeben (steht beim Serverstart in der Konsole):</p>
       <input class="input" id="authKey" autocomplete="off" placeholder="Schlüssel">
       <button class="btn" type="submit">Als Host verbinden</button>

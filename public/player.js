@@ -1,9 +1,7 @@
 /* GUESS IT – Spieleransicht (Smartphone) */
 (function () {
   'use strict';
-  const { fmt, fmtFor, fmtQ, parseNumber, el, countUp, snow, confetti, FINAL_DURATION } = window.GI;
-
-  snow(document.getElementById('snow'), 0.6);
+  const { fmt, fmtFor, fmtQ, parseNumber, el, countUp, confetti, FINAL_DURATION, blobLogo, deco } = window.GI;
 
   const view = document.getElementById('view');
   const meChip = document.getElementById('meChip');
@@ -59,8 +57,9 @@
     meChip.classList.add('hidden');
     progress.classList.add('hidden');
     const logo = el('div', 'logo hero-logo');
-    logo.append(el('span', 'g', 'Guess'), el('span', 'i', 'it'));
-    const tag = el('p', 'tagline', 'Das Schätzspiel der c3 Weihnachtsfeier');
+    logo.appendChild(blobLogo());
+    const tag = el('p', 'tagline wide', 'Das Schätzspiel der C3 Xmas Party');
+    tag.style.color = 'var(--red)';
 
     const form = el('form', 'card');
     const field = el('div', 'field');
@@ -86,7 +85,7 @@
         renderedKey = null;
       });
     });
-    setView('join', [logo, tag, form]);
+    setView('join', [deco('jar'), logo, tag, form]);
     setTimeout(() => input.focus(), 300);
   }
 
@@ -173,7 +172,7 @@
 
     const form = el('form', 'card');
     const input = el('input', 'input big');
-    Object.assign(input, { type: 'text', inputMode: 'decimal', autocomplete: 'off', placeholder: 'Deine Schätzung', enterKeyHint: 'send' });
+    Object.assign(input, { type: 'text', inputMode: 'decimal', autocomplete: 'off', placeholder: 'Schätzung', enterKeyHint: 'send' });
     if (state.me.answer != null) input.value = String(state.me.answer).replace('.', ',');
     const unit = el('div', 'unit-hint', q.unit ? `in ${q.unit}` : '');
     const preview = el('div', 'preview', '');
@@ -233,7 +232,7 @@
     const card = el('div', 'card center');
     if (state.me.answer != null) card.append(el('div', 'muted', 'Deine Schätzung'), el('div', 'big-num gold', fmtFor(q)(state.me.answer)), el('div', 'muted', q.unit || ''));
     else card.append(el('div', 'q-text', 'Diesmal keine Schätzung'));
-    setView('awaiting', [head, card]);
+    setView('awaiting', [deco('stopwatch'), head, card]);
   }
 
   function renderReveal() {
@@ -298,7 +297,7 @@
       const card = el('div', 'card center');
       card.append(el('div', 'big-num', fmt(me.score)), el('div', 'muted', 'Punkte'));
       const msg = el('p', 'tagline', me.rank === 1 ? 'Schätz-Champion. Glückwunsch!' : me.rank <= 3 ? 'Aufs Treppchen geschätzt!' : 'Danke fürs Mitspielen und frohe Weihnachten!');
-      screen.replaceChildren(head, card, msg);
+      screen.replaceChildren(deco(me.rank <= 3 ? 'trophy' : 'tree'), head, card, msg);
       if (me.rank <= 3) { confetti(200); setTimeout(() => confetti(150, { x: 0.2, y: 0.4 }), 500); setTimeout(() => confetti(150, { x: 0.8, y: 0.4 }), 900); }
     }, FINAL_DURATION);
   }

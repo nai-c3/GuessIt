@@ -1,9 +1,7 @@
 /* GUESS IT – Leinwand / Moderation */
 (function () {
   'use strict';
-  const { fmt, fmtUnit, fmtFor, fmtQ, parseNumber, el, sleep, countUp, snow, confetti, sound } = window.GI;
-
-  snow(document.getElementById('snow'), 1);
+  const { fmt, fmtUnit, fmtFor, fmtQ, parseNumber, el, sleep, countUp, confetti, sound, blobLogo, deco, printify } = window.GI;
 
   const $ = (id) => document.getElementById(id);
   const stage = $('stage');
@@ -173,12 +171,14 @@
   function renderLobby() {
     chipMap = new Map();
     const left = el('div');
+    left.style.position = 'relative';
     const logo = el('div', 'logo big-logo');
-    logo.append(el('span', 'g', 'Guess'), el('span', 'i', 'it'));
-    const sub = el('div', 'sub', 'Das große Schätzspiel der c3 Weihnachtsfeier');
+    logo.appendChild(blobLogo());
+    const sub = el('div', 'sub', 'Das Schätzspiel der C3 Xmas Party');
+    const date = el('div', 'date-line', '02.12.2026');
     const url = el('div', 'url', joinUrl ? prettyUrl(joinUrl) : '');
     url.id = 'joinUrl';
-    left.append(logo, sub, url);
+    left.append(deco('jar'), logo, sub, date, url);
 
     const qrCol = el('div', 'qr-col');
     const qr = el('div', 'qr-card');
@@ -186,7 +186,7 @@
     img.src = '/qr.svg?t=' + Date.now();
     img.alt = 'QR-Code zum Mitspielen';
     qr.appendChild(img);
-    qrCol.append(qr, el('div', 'hint', 'Mit dem Handy scannen und mitspielen'));
+    qrCol.append(deco('hand'), qr, el('div', 'hint', 'Scannen & mitspielen'));
 
     const top = el('div', 'lobby');
     top.append(left, qrCol);
@@ -243,7 +243,7 @@
     const answered = el('div', 'answered');
     answered.innerHTML = `<div class="big" id="ansCount">0</div><div class="lbl" id="ansLbl">Antworten</div><div class="answered-bar"><div id="ansBar" style="width:0%"></div></div>`;
     bottom.append(ring, answered);
-    setScene('question-scene', [head, center, bottom]);
+    setScene('question-scene', [deco('stopwatch', 'watch'), head, center, bottom]);
     sound.whoosh();
 
     lastTickSecond = null;
@@ -307,7 +307,7 @@
         if (!res.ok) err.textContent = res.error;
       });
     });
-    setScene('question-scene', [head, center, form]);
+    setScene('question-scene', [deco('stopwatch', 'watch'), head, center, form]);
   }
 
   // ---- Auflösung ----------------------------------------------------------
@@ -317,7 +317,7 @@
     const res = state.results || { entries: [], answer: q.answer };
     const qSmall = el('div', 'q-small', q.question);
     const big = el('div', 'answer-big');
-    const val = el('div', 'val', '0');
+    const val = printify(el('div', 'val', '0'));
     big.append(el('div', 'h-kicker', 'Die richtige Antwort'), val, el('div', 'unit', q.unit || ''));
     const info = q.info ? el('div', 'info', q.info) : null;
     if (info) { info.style.opacity = '0'; big.append(info); }
@@ -326,7 +326,7 @@
     const line = el('div', 'numline');
     const closest = el('div', 'closest');
     bottom.append(line, closest);
-    setScene('reveal-scene', [qSmall, big, bottom]);
+    setScene('reveal-scene', [deco('tape'), qSmall, big, bottom]);
 
     sound.drumroll(1.6);
     await countUp(val, 0, q.answer, 1800, fmtFor(q));
@@ -400,10 +400,10 @@
     const run = sceneRun;
     const players = state.players;
     const title = el('div');
-    title.append(el('div', 'h-kicker', `Nach Frage ${state.qIndex + 1} von ${state.total}`), el('div', 'h-title', 'Zwischenstand'));
+    title.append(el('div', 'h-kicker', `Nach Frage ${state.qIndex + 1} von ${state.total}`), printify(el('div', 'h-title', 'Zwischenstand')));
     title.style.textAlign = 'center';
     const list = el('div', 'lb-list');
-    const scene = setScene('lb-scene', [title, list]);
+    const scene = setScene('lb-scene', [deco('tree'), title, list]);
 
     const N = Math.min(10, players.length);
     if (N === 0) return;
@@ -465,7 +465,7 @@
 
     const titleWrap = el('div', 'final-title');
     const titleTxt = el('div', 'txt');
-    titleTxt.append(el('div', 'h-kicker', 'Nach ' + state.total + ' Fragen'), el('div', 'h-title', 'Das Finale'));
+    titleTxt.append(el('div', 'h-kicker', 'Nach ' + state.total + ' Fragen'), printify(el('div', 'h-title', 'Das Finale')));
     titleWrap.appendChild(titleTxt);
 
     const restList = el('div', 'rest-list');
@@ -486,7 +486,8 @@
       podium.appendChild(pod);
       pods[place] = pod;
     });
-    setScene('final-scene', [titleWrap, restList, podium]);
+    const trophy = deco('trophy');
+    setScene('final-scene', [deco('tree'), trophy, titleWrap, restList, podium]);
     restList.style.opacity = '0';
     podium.style.opacity = '0';
     podium.style.transition = restList.style.transition = 'opacity .8s';
@@ -544,7 +545,8 @@
     sound.crash();
     sound.fanfare();
     const banner = el('div', 'winner-banner');
-    banner.append(el('div', 'h-kicker', 'Gewinner:in von GUESS IT'), el('div', 'h-title', top3[0].name));
+    banner.append(el('div', 'h-kicker', 'Gewinner:in von GUESS IT'), printify(el('div', 'h-title', top3[0].name)));
+    trophy.classList.add('show');
     stage.querySelector('.final-scene').appendChild(banner);
     requestAnimationFrame(() => banner.classList.add('show'));
     const cx = (r1.left + r1.width / 2) / innerWidth;

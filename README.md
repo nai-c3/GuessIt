@@ -84,9 +84,15 @@ Zeiten lassen sich auch als `1:20` eingeben (= 80 Sekunden), sowohl von Spielern
 
 Die Konstanten stehen oben in `server.js`.
 
-## Design / Marke anpassen
+## Design
 
-Alle Farben, Radien und Schriften hängen an den Tokens im `:root`-Block oben in `public/style.css` (`--brand`, `--accent`, `--bg`, `--surface`, `--medal-1..3`, `--font`, `--display` …). Für die c3-CI reicht es, dort die Werte einzutragen und gegebenenfalls die Google-Fonts-`<link>`s in `public/index.html` und `public/host.html` zu tauschen. Auch das Konfetti nimmt die Farben automatisch aus den Tokens.
+Der Look ist vom Plakat „C3 XMAS PARTY 02.12.2026“ abgeleitet:
+
+- **Farben** (am Plakat gemessen): Lila-Papier `#d5bddb`, Rot `#e75738`, Ultramarin `#4a39e0`, helles Blau `#8677e6`, Weiß. Alle stehen als Tokens oben in `public/style.css`.
+- **Schrift:** Archivo in breitester Variante (Versalien, wie die Plakat-Groteske) und Unbounded für Zahlen (runde Ziffern wie im Datum). Beide kommen von Google Fonts.
+- **Druckgefühl:** Papierkörnung über der ganzen Seite, blaue Rasterpunkt-Schatten hinter Headlines, harte versetzte Schatten statt Rundungen.
+- **Logo:** „GUESS IT“ wird live als SVG mit zerlaufenden Buchstaben gerendert (`blobLogo()` in `public/common.js`).
+- **Collage-Grafiken** in `public/img/` (Stoppuhr, Keksglas, Weihnachtsbaum, Pokal, Zeigehand, Maßband): mit Magnific erzeugt, freigestellt und wie Risodruck blau eingefärbt. Sie werden mit `mix-blend-mode: multiply` übergedruckt.
 
 ## Hinweise
 

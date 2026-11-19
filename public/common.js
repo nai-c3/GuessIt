@@ -46,6 +46,7 @@
         const v = from + (to - from) * ease(t);
         const rounded = Number.isInteger(to) && Number.isInteger(from) ? Math.round(v) : v;
         node.textContent = format(t === 1 ? to : rounded);
+        if (node.classList.contains('print')) node.dataset.text = node.textContent;
         if (t < 1) requestAnimationFrame(frame); else resolve();
       }
       requestAnimationFrame(frame);
@@ -96,7 +97,7 @@
   // Konfetti-Farben kommen aus den Marken-Tokens in style.css
   function confettiColors() {
     const cs = getComputedStyle(document.documentElement);
-    const c = ['--brand', '--brand-soft', '--accent', '--text', '--medal-2'].map((v) => cs.getPropertyValue(v).trim()).filter(Boolean);
+    const c = ['--red', '--blue', '--blue-soft', '--white', '--red'].map((v) => cs.getPropertyValue(v).trim()).filter(Boolean);
     return c.length ? c : ['#ffffff'];
   }
   function confetti(amount = 160, origin = { x: 0.5, y: 0.35 }) {
@@ -206,5 +207,57 @@
   // Dauer der Finalanimation auf der Leinwand (ms) – Handys warten so lange
   const FINAL_DURATION = 30000;
 
-  window.GI = { fmt, fmtUnit, fmtFor, fmtQ, parseNumber, el, sleep, countUp, snow, confetti, sound, FINAL_DURATION };
+  // -------------------------------------------------------------------------
+  // Plakat-Look
+  // -------------------------------------------------------------------------
+  // „GUESS IT“ mit zerlaufenden Buchstaben wie das C3-XMAS-PARTY-Lettering:
+  // echter Text, per SVG-Filter verflüssigt, darunter ein blauer Rasterpunkt-Schatten.
+  let blobCount = 0;
+  function blobLogo(text = 'GUESS IT') {
+    const id = 'gl' + (++blobCount);
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `
+<svg class="blob-logo" viewBox="0 0 1000 250" role="img" aria-label="${text}">
+  <defs>
+    <filter id="${id}f" x="-8%" y="-30%" width="116%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.009 0.014" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feMorphology in="d" operator="dilate" radius="2" result="m"/>
+      <feGaussianBlur in="m" stdDeviation="5" result="b"/>
+      <feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9"/>
+    </filter>
+    <pattern id="${id}p" width="8" height="8" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="2.3" style="fill:var(--blue)"/>
+    </pattern>
+    <mask id="${id}m" maskUnits="userSpaceOnUse" x="-50" y="-50" width="1100" height="350">
+      <text x="500" y="200" text-anchor="middle" font-size="235" textLength="950" lengthAdjust="spacingAndGlyphs" fill="#fff" filter="url(#${id}f)">${text}</text>
+    </mask>
+  </defs>
+  <g transform="translate(16 18)"><rect x="-50" y="-50" width="1100" height="350" fill="url(#${id}p)" mask="url(#${id}m)"/></g>
+  <text x="500" y="200" text-anchor="middle" font-size="235" textLength="950" lengthAdjust="spacingAndGlyphs" style="fill:var(--red)" filter="url(#${id}f)">${text}</text>
+</svg>`;
+    return wrap.firstElementChild;
+  }
+
+  // Collage-Grafik aus /img (von Magnific erzeugt, blau eingefärbt)
+  function deco(name, cls = '') {
+    const img = document.createElement('img');
+    img.src = `/img/${name}.webp`;
+    img.alt = '';
+    img.className = `deco ${name} ${cls}`.trim();
+    img.decoding = 'async';
+    return img;
+  }
+
+  // Rasterpunkt-Schatten an eine Headline hängen
+  function printify(node) {
+    node.classList.add('print');
+    node.dataset.text = node.textContent;
+    return node;
+  }
+
+  // Platzhalter im HTML füllen
+  document.querySelectorAll('[data-blob-logo]').forEach((n) => n.appendChild(blobLogo()));
+
+  window.GI = { fmt, fmtUnit, fmtFor, fmtQ, parseNumber, el, sleep, countUp, snow, confetti, sound, FINAL_DURATION, blobLogo, deco, printify };
 })();
