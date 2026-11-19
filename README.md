@@ -25,14 +25,33 @@ Den Host-Link auf dem Laptop am Beamer öffnen und mit **F** auf Vollbild schalt
 | `PUBLIC_URL` | öffentliche Adresse für den QR-Code, z. B. `https://guessit.example.com` |
 | `QUESTIONS_FILE` | anderer Pfad zur Fragendatei |
 
-## Wichtig: Wie kommen die Handys an den Server?
+## Hosting
 
-Die Handys müssen den Server erreichen. Zwei Wege:
+GUESS IT braucht einen laufenden Node-Server, weil alle Handys per WebSocket live verbunden sind. Statische Hoster wie tiiny.host oder GitHub Pages reichen dafür nicht.
 
-1. **Laptop im selben WLAN** wie alle Gäste. Der QR-Code nutzt automatisch die WLAN-IP des Laptops. Achtung: Gäste-WLANs blockieren oft Verbindungen zwischen Geräten („Client Isolation“), und Gäste im Mobilfunknetz kommen nicht dran. **Vorher vor Ort testen!**
-2. **Im Internet hosten** (empfohlen), z. B. auf Render, Railway oder Fly.io als Node-App mit `npm start`. Dort `HOST_KEY` setzen und gegebenenfalls `PUBLIC_URL`. Dann funktioniert es auch über Mobilfunk.
+### Empfohlen: Render.com (mit `render.yaml`)
 
-Der Spielstand liegt nur im Arbeitsspeicher. Wird der Server neu gestartet, ist das Spiel weg. Handys, deren Bildschirm sich sperrt, verbinden sich dagegen automatisch wieder und behalten ihre Punkte.
+1. Bei [render.com](https://render.com) mit GitHub anmelden.
+2. **New → Blueprint**, das Repo `nai-c3/guessit` und den Branch mit dem Code wählen. Render liest `render.yaml` und legt den Dienst „guess-it“ in Frankfurt an.
+3. Nach dem Deploy im Dienst unter **Environment** den generierten `HOST_KEY` ablesen.
+4. Leinwand: `https://<dienst>.onrender.com/host?key=<HOST_KEY>`. Der QR-Code zeigt automatisch die richtige Adresse.
+
+Tarif: `starter` (kostenpflichtig, läuft durchgehend). Mit `free` schläft der Dienst nach 15 Minuten ohne Besucher ein, und der erste Aufruf dauert dann rund eine Minute. Wer `free` nimmt, öffnet die Leinwand 10 Minuten vor Spielbeginn. **Nicht während des Spiels neu deployen:** Der Spielstand liegt nur im Arbeitsspeicher und wäre weg.
+
+### Notlösung: Laptop + Tunnel
+
+```bash
+npm start
+npx cloudflared tunnel --url http://localhost:3000   # oder: cloudflared installieren
+```
+
+Cloudflare gibt eine `https://…trycloudflare.com`-Adresse aus. Mit `PUBLIC_URL=<diese Adresse> npm start` zeigt der QR-Code darauf. Das funktioniert auch über Mobilfunk, hängt aber an Laptop und WLAN vor Ort.
+
+### Nur im lokalen WLAN
+
+Der QR-Code nutzt die WLAN-IP des Laptops. Gäste-WLANs blockieren oft Verbindungen zwischen Geräten, und Gäste im Mobilfunknetz kommen nicht dran. Unbedingt vorher vor Ort testen.
+
+Handys, deren Bildschirm sich sperrt, verbinden sich automatisch wieder und behalten ihre Punkte.
 
 ## Steuerung (Leinwand)
 

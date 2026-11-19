@@ -1,0 +1,14 @@
+# Render Blueprint: Dashboard → New → Blueprint → dieses Repo wählen
+services:
+  - type: web
+    name: guess-it
+    runtime: node
+    region: frankfurt
+    plan: starter          # "free" geht auch, schläft aber nach 15 Min. ohne Besucher ein
+    buildCommand: npm ci
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: HOST_KEY      # Host-Schlüssel für /host?key=… (Wert im Render-Dashboard unter Environment)
+        generateValue: true
