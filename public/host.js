@@ -243,7 +243,7 @@
     const answered = el('div', 'answered');
     answered.innerHTML = `<div class="big" id="ansCount">0</div><div class="lbl" id="ansLbl">Antworten</div><div class="answered-bar"><div id="ansBar" style="width:0%"></div></div>`;
     bottom.append(ring, answered);
-    setScene('question-scene', [deco('stopwatch', 'watch'), head, center, bottom]);
+    setScene('question-scene', [deco(q.image || 'stopwatch', 'watch'), head, center, bottom]);
     sound.whoosh();
 
     lastTickSecond = null;
@@ -307,7 +307,7 @@
         if (!res.ok) err.textContent = res.error;
       });
     });
-    setScene('question-scene', [deco('stopwatch', 'watch'), head, center, form]);
+    setScene('question-scene', [deco(q.image || 'stopwatch', 'watch'), head, center, form]);
   }
 
   // ---- Auflösung ----------------------------------------------------------
@@ -326,7 +326,7 @@
     const line = el('div', 'numline');
     const closest = el('div', 'closest');
     bottom.append(line, closest);
-    setScene('reveal-scene', [deco('tape'), qSmall, big, bottom]);
+    setScene('reveal-scene', [deco(q.image || 'tape', 'tape'), qSmall, big, bottom]);
 
     sound.drumroll(1.6);
     await countUp(val, 0, q.answer, 1800, fmtFor(q));

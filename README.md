@@ -82,6 +82,8 @@ Eine Frage schließt automatisch, wenn die Zeit abläuft oder alle verbundenen S
 | `format` | | `"year"` = ohne Tausenderpunkt anzeigen (1984 statt 1.984) |
 | `maxDeviation` | | lineare Wertung: ab dieser Abweichung 0 Punkte (für Jahreszahlen nötig, siehe unten) |
 | `live` | | `true` = Antwort wird erst vor Ort ermittelt |
+| `image` | | Name einer Grafik aus `public/img/` ohne Endung (z. B. `coffee`), erscheint bei Frage und Auflösung |
+| `_todo` | | Notiz für euch, wird nirgends angezeigt |
 
 ### Live-Fragen (Antwort wird vor Ort ermittelt)
 

@@ -46,6 +46,7 @@ function loadQuestions() {
       maxDeviation: q.maxDeviation != null ? Number(q.maxDeviation) : null,
       info: q.info || '',
       format: q.format === 'year' ? 'year' : '',
+      image: /^[a-z0-9-]+$/.test(q.image || '') ? q.image : '',
     };
   });
 }
@@ -229,6 +230,7 @@ function questionPublic(withAnswer) {
     unit: q.unit,
     time: q.time,
     format: q.format,
+    image: q.image,
     info: withAnswer ? q.info : '',
     answer: withAnswer ? q.answer : undefined,
   };
