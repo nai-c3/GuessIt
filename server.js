@@ -17,17 +17,20 @@ const PUBLIC_URL = (process.env.PUBLIC_URL || '').replace(/\/+$/, '');
 const HOST_KEY = process.env.HOST_KEY || crypto.randomBytes(3).toString('hex');
 const QUESTIONS_FILE = process.env.QUESTIONS_FILE || path.join(__dirname, 'questions.json');
 
-const DEFAULT_TIME = 30;            // Sekunden pro Frage, falls nicht in questions.json gesetzt
+// Kein Zeitlimit: Eine Frage bleibt offen, bis alle geantwortet haben oder der Host sie beendet.
+// Optional pro Frage "time" (Sekunden) in questions.json setzen.
 const MAX_POINTS = 1000;            // Punkte für einen exakten Treffer
 const LOG_ZERO_FACTOR = 4;          // Ab Faktor 4 daneben gibt es 0 Grundpunkte
 const PLACE_BONUS = [300, 200, 100];// Bonus für die drei nächsten Schätzungen
 const MAX_NAME_LEN = 20;
 
+let HIDE_LEADERBOARD_FROM = 0;      // ab dieser Frage (1-basiert) kein Zwischenstand mehr, 0 = immer zeigen
 const questions = loadQuestions();
 
 function loadQuestions() {
   const raw = JSON.parse(fs.readFileSync(QUESTIONS_FILE, 'utf8'));
   const list = Array.isArray(raw) ? raw : raw.questions;
+  if (!Array.isArray(raw) && raw.hideLeaderboardFrom) HIDE_LEADERBOARD_FROM = Number(raw.hideLeaderboardFrom) || 0;
   if (!Array.isArray(list) || list.length === 0) throw new Error('questions.json enthält keine Fragen');
   return list.map((q, i) => {
     const live = q.live === true || q.answer == null;
@@ -42,7 +45,7 @@ function loadQuestions() {
       answer: live ? null : q.answer,
       live,
       unit: q.unit || '',
-      time: Number(q.time) || DEFAULT_TIME,
+      time: Number(q.time) || 0,
       maxDeviation: q.maxDeviation != null ? Number(q.maxDeviation) : null,
       info: q.info || '',
       format: q.format === 'year' ? 'year' : '',
@@ -144,8 +147,12 @@ function startQuestion(index) {
   game.answers = new Map();
   game.results = null;
   const q = questions[index];
-  game.deadline = Date.now() + q.time * 1000;
-  timer = setTimeout(closeQuestion, q.time * 1000 + 300);
+  if (q.time > 0) {
+    game.deadline = Date.now() + q.time * 1000;
+    timer = setTimeout(closeQuestion, q.time * 1000 + 300);
+  } else {
+    game.deadline = null;
+  }
 }
 
 function closeQuestion() {
@@ -190,7 +197,9 @@ function next() {
     case 'awaiting':
       return; // erst Antwort eintragen
     case 'reveal':
-      game.phase = game.qIndex >= questions.length - 1 ? 'final' : 'leaderboard';
+      if (game.qIndex >= questions.length - 1) game.phase = 'final';
+      else if (leaderboardHiddenAfter(game.qIndex)) { startQuestion(game.qIndex + 1); break; }
+      else game.phase = 'leaderboard';
       break;
     case 'leaderboard':
       startQuestion(game.qIndex + 1);
@@ -199,6 +208,11 @@ function next() {
       return;
   }
   broadcast();
+}
+
+// Nach dieser Frage (0-basiert) keinen Zwischenstand zeigen?
+function leaderboardHiddenAfter(qIndex) {
+  return HIDE_LEADERBOARD_FROM > 0 && qIndex + 1 >= HIDE_LEADERBOARD_FROM;
 }
 
 function resetGame(keepPlayers) {
@@ -244,6 +258,7 @@ function hostState() {
     qIndex: game.qIndex,
     total: questions.length,
     deadline: game.deadline,
+    hideLeaderboardFrom: HIDE_LEADERBOARD_FROM,
     now: Date.now(),
     question: questionPublic(showAnswer),
     answeredCount: game.answers.size,
@@ -265,6 +280,7 @@ function playerState(p) {
     qIndex: game.qIndex,
     total: questions.length,
     deadline: game.deadline,
+    hideLeaderboardFrom: HIDE_LEADERBOARD_FROM,
     now: Date.now(),
     question: questionPublic(showAnswer),
     me: {
@@ -375,7 +391,7 @@ io.on('connection', (socket) => {
     ack?.(err ? { ok: false, error: err } : { ok: true });
   });
   socket.on('host:addTime', hostOnly((sec) => {
-    if (game.phase !== 'question') return;
+    if (game.phase !== 'question' || !game.deadline) return;
     clearTimer();
     game.deadline += (Number(sec) || 15) * 1000;
     timer = setTimeout(closeQuestion, Math.max(0, game.deadline - Date.now()) + 300);

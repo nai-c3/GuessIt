@@ -63,6 +63,7 @@
   addTimeBtn.addEventListener('click', () => socket.emit('host:addTime', 15));
   $('menuBtn').addEventListener('click', (e) => { e.stopPropagation(); menu.classList.toggle('hidden'); });
   document.addEventListener('click', (e) => { if (!menu.contains(e.target)) menu.classList.add('hidden'); });
+  menu.addEventListener('click', (e) => { if (e.target.closest('button')) menu.classList.add('hidden'); });
   $('mFullscreen').addEventListener('click', toggleFullscreen);
   $('mSound').addEventListener('click', toggleSound);
   $('mFix').addEventListener('click', () => {
@@ -110,14 +111,14 @@
       lobby: '▶ Spiel starten',
       question: 'Frage beenden',
       awaiting: '',
-      reveal: qIndex >= total - 1 ? 'Zum Finale' : 'Zwischenstand',
+      reveal: qIndex >= total - 1 ? 'Zum Finale' : (state.hideLeaderboardFrom && qIndex + 1 >= state.hideLeaderboardFrom ? `Frage ${qIndex + 2} ▶` : 'Zwischenstand'),
       leaderboard: `Frage ${qIndex + 2} ▶`,
       final: '',
     };
     nextBtn.textContent = labels[phase];
     nextBtn.classList.toggle('hidden', phase === 'final' || phase === 'awaiting');
     nextBtn.disabled = phase === 'lobby' && state.players.length === 0;
-    addTimeBtn.classList.toggle('hidden', phase !== 'question');
+    addTimeBtn.classList.toggle('hidden', phase !== 'question' || !state.deadline);
     $('mReplay').classList.toggle('hidden', phase !== 'final');
     $('mFix').classList.toggle('hidden', !(phase === 'reveal' && state.question && state.question.live));
 
@@ -238,11 +239,15 @@
     if (q.unit) center.append(el('div', 'unit', `Antwort in ${q.unit}`));
 
     const bottom = el('div', 'q-bottom');
-    const ring = el('div', 'ring');
-    ring.innerHTML = `<svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"/><circle class="fg" cx="50" cy="50" r="44" stroke-dasharray="276.46" stroke-dashoffset="0"/></svg><div class="num">${q.time}</div>`;
     const answered = el('div', 'answered');
     answered.innerHTML = `<div class="big" id="ansCount">0</div><div class="lbl" id="ansLbl">Antworten</div><div class="answered-bar"><div id="ansBar" style="width:0%"></div></div>`;
-    bottom.append(ring, answered);
+    if (state.deadline) {
+      // Countdown nur, wenn die Frage ein Zeitlimit hat
+      const ring = el('div', 'ring');
+      ring.innerHTML = `<svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"/><circle class="fg" cx="50" cy="50" r="44" stroke-dasharray="276.46" stroke-dashoffset="0"/></svg><div class="num">${q.time}</div>`;
+      bottom.append(ring);
+    }
+    bottom.append(answered);
     setScene('question-scene', [deco(q.image || 'stopwatch', 'watch'), head, center, bottom]);
     sound.whoosh();
 
@@ -387,10 +392,16 @@
       buckets.set(b, n + 1);
       const dot = el('div', 'dot' + (e.place <= 3 ? ' top' : ''));
       dot.style.left = p + '%';
-      dot.style.top = `calc(60% - ${Math.min(n, 8) * 1.4}vh)`;
+      dot.style.top = `calc(var(--axis) - ${Math.min(n, 8) * 1.4}vh)`;
       dot.style.animationDelay = `${Math.min(1.5, i * 0.04)}s`;
       dot.title = `${e.name}: ${f(e.guess)}`;
       line.appendChild(dot);
+      // Name klein und schräg über dem Punkt
+      const label = el('div', 'dot-label' + (e.place <= 3 ? ' top' : ''), e.name);
+      label.style.left = p + '%';
+      label.style.top = `calc(var(--axis) - ${Math.min(n, 8) * 1.4 + 1.4}vh)`;
+      label.style.animationDelay = `${Math.min(1.5, i * 0.04) + 0.2}s`;
+      line.appendChild(label);
     });
   }
   const round2 = (v) => (Math.abs(v) >= 100 ? Math.round(v) : Math.round(v * 100) / 100);
@@ -400,7 +411,8 @@
     const run = sceneRun;
     const players = state.players;
     const title = el('div');
-    title.append(el('div', 'h-kicker', `Nach Frage ${state.qIndex + 1} von ${state.total}`), printify(el('div', 'h-title', 'Zwischenstand')));
+    const lastBoard = state.hideLeaderboardFrom && state.qIndex + 2 === state.hideLeaderboardFrom;
+    title.append(el('div', 'h-kicker', lastBoard ? `Letzter Zwischenstand – ab jetzt bleibt es geheim!` : `Nach Frage ${state.qIndex + 1} von ${state.total}`), printify(el('div', 'h-title', 'Zwischenstand')));
     title.style.textAlign = 'center';
     const list = el('div', 'lb-list');
     const scene = setScene('lb-scene', [deco('tree'), title, list]);

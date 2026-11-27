@@ -64,7 +64,9 @@ Handys, deren Bildschirm sich sperrt, verbinden sich automatisch wieder und beha
 | ☰ Menü | Live-Antwort korrigieren, Finale wiederholen, neues Spiel, alles zurücksetzen |
 | Klick auf Namen in der Lobby | Spieler entfernen (z. B. bei unpassenden Namen) |
 
-Eine Frage schließt automatisch, wenn die Zeit abläuft oder alle verbundenen Spieler geantwortet haben.
+Eine Frage schließt automatisch, sobald alle verbundenen Spieler geantwortet haben, sonst mit „Frage beenden“ (Leertaste). Ein Zeitlimit gibt es nur, wenn eine Frage `time` gesetzt hat.
+
+**Spannung zum Schluss:** Mit `"hideLeaderboardFrom": 11` oben in `questions.json` gibt es ab Frage 11 keinen Zwischenstand mehr. Nach der Auflösung geht es direkt zur nächsten Frage, der Stand wird erst im Finale enthüllt.
 
 ## Fragen bearbeiten – `questions.json`
 
@@ -77,7 +79,7 @@ Eine Frage schließt automatisch, wenn die Zeit abläuft oder alle verbundenen S
 | `question` | ✔ | Fragetext |
 | `answer` | ✔ (außer bei Live-Fragen) | richtige Antwort (Zahl) |
 | `unit` | | Einheit, wird überall angezeigt |
-| `time` | | Sekunden zum Schätzen (Standard 30) |
+| `time` | | Optionales Zeitlimit in Sekunden. Ohne Angabe bleibt die Frage offen, bis alle geantwortet haben oder du sie beendest. |
 | `info` | | Zusatzinfo bei der Auflösung |
 | `format` | | `"year"` = ohne Tausenderpunkt anzeigen (1984 statt 1.984) |
 | `maxDeviation` | | lineare Wertung: ab dieser Abweichung 0 Punkte (für Jahreszahlen nötig, siehe unten) |

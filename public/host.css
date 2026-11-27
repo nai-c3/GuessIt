@@ -93,14 +93,17 @@ body.host { overflow: hidden; height: 100vh; }
 .answer-big .info { font-size: clamp(15px, 1.4vw, 28px); color: var(--text); font-weight: 600; margin-top: 1.2vh; }
 .reveal-bottom { display: grid; grid-template-columns: 1.4fr 1fr; gap: 3vw; align-items: center; }
 
-.numline { position: relative; height: 18vh; margin: 0 2vw; }
-.numline .axis { position: absolute; left: 0; right: 0; top: 60%; height: 3px; background: var(--blue); }
-.numline .dot { position: absolute; top: 60%; width: 1.1vw; height: 1.1vw; min-width: 10px; min-height: 10px; border-radius: 50%; background: var(--blue-soft); transform: translate(-50%, -50%) scale(0); animation: dotIn 0.4s forwards cubic-bezier(0.3, 1.6, 0.5, 1); }
+.numline { --axis: 74%; position: relative; height: 30vh; margin: 0 2vw; }
+.numline .axis { position: absolute; left: 0; right: 0; top: var(--axis); height: 3px; background: var(--blue); }
+.numline .dot { position: absolute; top: var(--axis); width: 1.1vw; height: 1.1vw; min-width: 10px; min-height: 10px; border-radius: 50%; background: var(--blue-soft); transform: translate(-50%, -50%) scale(0); animation: dotIn 0.4s forwards cubic-bezier(0.3, 1.6, 0.5, 1); }
 .numline .dot.top { background: var(--blue); }
 @keyframes dotIn { to { transform: translate(-50%, -50%) scale(1); } }
-.numline .target { position: absolute; top: 15%; bottom: 10%; width: 5px; background: var(--red); transform: translateX(-50%); }
-.numline .target span { position: absolute; top: -3.6vh; left: 50%; transform: translateX(-50%); white-space: nowrap; font-family: var(--num); font-weight: 800; color: var(--red); font-size: clamp(12px, 1.1vw, 22px); }
-.numline .tick { position: absolute; top: calc(60% + 1.6vh); transform: translateX(-50%); font-family: var(--num); font-size: clamp(10px, 0.85vw, 17px); color: var(--blue); font-weight: 600; white-space: nowrap; }
+.numline .dot-label { position: absolute; transform-origin: 0 100%; transform: translate(0.2vw, -100%) rotate(-55deg); white-space: nowrap; font-weight: 700; font-size: clamp(9px, 0.72vw, 15px); line-height: 1; color: var(--blue); opacity: 0; animation: labelIn 0.4s forwards; pointer-events: none; }
+.numline .dot-label.top { color: var(--red); font-weight: 800; }
+@keyframes labelIn { to { opacity: 1; } }
+.numline .target { position: absolute; top: 4%; bottom: 8%; width: 5px; background: var(--red); transform: translateX(-50%); }
+.numline .target span { position: absolute; top: -3.4vh; left: 50%; transform: translateX(-50%); white-space: nowrap; font-family: var(--num); font-weight: 800; color: var(--red); font-size: clamp(12px, 1.1vw, 22px); }
+.numline .tick { position: absolute; top: calc(var(--axis) + 1.6vh); transform: translateX(-50%); font-family: var(--num); font-size: clamp(10px, 0.85vw, 17px); color: var(--blue); font-weight: 600; white-space: nowrap; }
 
 .closest { display: flex; flex-direction: column; gap: 1.2vh; }
 .closest .row { display: grid; grid-template-columns: auto 1fr auto; gap: 1.2vw; align-items: center; padding: 1.4vh 1.2vw; background: var(--surface); opacity: 0; transform: translateX(3vw); animation: slideIn 0.5s forwards cubic-bezier(0.2, 0.8, 0.2, 1); }

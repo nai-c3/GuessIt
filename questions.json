@@ -1,18 +1,95 @@
 {
+  "hideLeaderboardFrom": 11,
   "questions": [
-    { "question": "Wie viele Kilogramm Kaffee hat c3 2026 verbraucht?", "answer": 80, "unit": "kg", "image": "coffee" },
-    { "question": "Wie viele Nachrichten wurden 2026 bei c3 über Teams verschickt?", "answer": 1020000, "unit": "Nachrichten", "image": "typewriter" },
-    { "question": "Wie viele Sekunden braucht […], um herauszufinden, was bei [Aufgabe] zu tun ist?", "live": true, "unit": "Sekunden", "image": "magnifier" },
-    { "question": "Wie viele Kinder haben alle c3-Mitarbeitenden zusammen?", "answer": 50, "unit": "Kinder", "image": "rockinghorse", "_todo": "PLATZHALTER: echte Zahl folgt" },
-    { "question": "Wie viele Teams-Meetings gab es 2026 bei c3?", "answer": 29990, "unit": "Meetings", "image": "telephone" },
-    { "question": "Wie viel Speicherplatz belegt c3 in der Box?", "answer": 1200, "unit": "TB", "image": "floppy", "info": "1.200 Terabyte – also 1,2 Petabyte." },
-    { "question": "Wie viele kleine Dominosteine passen in [X]s Mund?", "live": true, "unit": "Dominosteine", "image": "dominos" },
-    { "question": "Wie viele IT-Tickets wurden 2026 eröffnet?", "answer": 1271, "unit": "Tickets", "image": "computer" },
-    { "question": "Wie viele Ausgaben vom [Y]-Magazin hat c3 bisher produziert, Sonderausgaben eingeschlossen?", "answer": 134, "unit": "Ausgaben", "image": "magazines", "info": "134 Ausgaben in 18 Jahren, darunter eine englische Übersetzung. Die erste Ausgabe erschien im Mai 2009." },
-    { "question": "Wie viele Geschenke bekommt man im Lied „The Twelve Days of Christmas“ insgesamt?", "answer": 364, "unit": "Geschenke", "image": "presents", "info": "1 + 3 + 6 + 10 + … + 78 = 364 – fast eins für jeden Tag im Jahr." },
-    { "question": "Wie viele Sekunden braucht [Name], um eine verknotete Lichterkette zu entwirren?", "live": true, "unit": "Sekunden", "image": "lights" },
-    { "question": "Wie viele E-Mails wurden 2026 bei c3 verschickt?", "answer": 335000, "unit": "E-Mails", "image": "envelopes" },
-    { "question": "Wie viele Culture-Calendar-Events gab es 2026?", "answer": 50, "unit": "Events", "image": "calendar", "_todo": "PLATZHALTER: echte Zahl folgt" },
-    { "question": "Wie viele übereinandergestapelte Weihnachtsbäume (je 2,2 m) braucht man, um die Höhe des c3-Gebäudes in Berlin zu erreichen?", "answer": 12, "unit": "Bäume", "image": "building", "info": "Das Gebäude ist 24,716 m hoch: 24,716 ÷ 2,2 = 11,2. Mit 11 Bäumen fehlen noch gut 50 cm – erst der 12. reicht bis oben." }
+    {
+      "question": "Wie viele Kilogramm Kaffee hat c3 2026 verbraucht?",
+      "answer": 80,
+      "unit": "kg",
+      "image": "coffee"
+    },
+    {
+      "question": "Wie viele Nachrichten wurden 2026 bei c3 über Teams verschickt?",
+      "answer": 1020000,
+      "unit": "Nachrichten",
+      "image": "typewriter"
+    },
+    {
+      "question": "Wie viele Sekunden braucht […], um herauszufinden, was bei [Aufgabe] zu tun ist?",
+      "live": true,
+      "unit": "Sekunden",
+      "image": "magnifier"
+    },
+    {
+      "question": "Wie viele Kinder haben alle c3-Mitarbeitenden zusammen?",
+      "answer": 50,
+      "unit": "Kinder",
+      "image": "rockinghorse",
+      "_todo": "PLATZHALTER: echte Zahl folgt"
+    },
+    {
+      "question": "Wie viele Teams-Meetings gab es 2026 bei c3?",
+      "answer": 29990,
+      "unit": "Meetings",
+      "image": "telephone"
+    },
+    {
+      "question": "Wie viel Speicherplatz belegt c3 in der Box?",
+      "answer": 1200,
+      "unit": "TB",
+      "image": "floppy",
+      "info": "1.200 Terabyte – also 1,2 Petabyte."
+    },
+    {
+      "question": "Wie viele kleine Dominosteine passen in [X]s Mund?",
+      "live": true,
+      "unit": "Dominosteine",
+      "image": "dominos"
+    },
+    {
+      "question": "Wie viele IT-Tickets wurden 2026 eröffnet?",
+      "answer": 1271,
+      "unit": "Tickets",
+      "image": "computer"
+    },
+    {
+      "question": "Wie viele Ausgaben vom [Y]-Magazin hat c3 bisher produziert, Sonderausgaben eingeschlossen?",
+      "answer": 134,
+      "unit": "Ausgaben",
+      "image": "magazines",
+      "info": "134 Ausgaben in 18 Jahren, darunter eine englische Übersetzung. Die erste Ausgabe erschien im Mai 2009."
+    },
+    {
+      "question": "Wie viele Geschenke bekommt man im Lied „The Twelve Days of Christmas“ insgesamt?",
+      "answer": 364,
+      "unit": "Geschenke",
+      "image": "presents",
+      "info": "1 + 3 + 6 + 10 + … + 78 = 364 – fast eins für jeden Tag im Jahr."
+    },
+    {
+      "question": "Wie viele Sekunden braucht [Name], um eine verknotete Lichterkette zu entwirren?",
+      "live": true,
+      "unit": "Sekunden",
+      "image": "lights"
+    },
+    {
+      "question": "Wie viele E-Mails wurden 2026 bei c3 verschickt?",
+      "answer": 335000,
+      "unit": "E-Mails",
+      "image": "envelopes"
+    },
+    {
+      "question": "Wie viele Culture-Calendar-Events gab es 2026?",
+      "answer": 50,
+      "unit": "Events",
+      "image": "calendar",
+      "_todo": "PLATZHALTER: echte Zahl folgt"
+    },
+    {
+      "question": "Wie viele übereinandergestapelte Weihnachtsbäume (je 2,2 m) braucht man, um die Höhe des c3-Gebäudes in Berlin zu erreichen?",
+      "answer": 12,
+      "unit": "Bäume",
+      "image": "building",
+      "info": "Das Gebäude ist 24,716 m hoch: 24,716 ÷ 2,2 = 11,2. Mit 11 Bäumen fehlen noch gut 50 cm – erst der 12. reicht bis oben."
+    }
   ]
 }

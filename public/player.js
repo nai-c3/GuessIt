@@ -148,6 +148,7 @@
   }
 
   function timerBar() {
+    if (!state.deadline) return null; // kein Zeitlimit
     const bar = el('div', 'timer-bar');
     const fill = el('div');
     bar.appendChild(fill);
@@ -279,7 +280,8 @@
     countUp(pts, me.score - me.lastPoints, me.score, 1500);
     card.append(pts, el('div', 'muted', `Punkte von ${state.playerCount} Mitspielenden`));
     const left = state.total - state.qIndex - 1;
-    const info = el('p', 'tagline', left === 1 ? 'Noch 1 Frage!' : `Noch ${left} Fragen`);
+    const lastBoard = state.hideLeaderboardFrom && state.qIndex + 2 === state.hideLeaderboardFrom;
+    const info = el('p', 'tagline', (left === 1 ? 'Noch 1 Frage!' : `Noch ${left} Fragen`) + (lastBoard ? ' Ab jetzt bleibt der Zwischenstand geheim.' : ''));
     setView('lb', [head, card, info]);
   }
 
