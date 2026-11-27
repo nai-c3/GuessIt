@@ -289,6 +289,9 @@ function playerState(p) {
       answer: game.answers.has(p.id) ? game.answers.get(p.id) : null,
     },
     playerCount: game.players.size,
+    // Wer war in dieser Runde am nächsten dran? (Namen mit Platz 1, bei Gleichstand mehrere)
+    closest: showAnswer && game.results ? game.results.entries.filter((e) => e.place === 1).map((e) => ({ id: e.id, name: e.name })) : [],
+    guessCount: showAnswer && game.results ? game.results.count : 0,
   };
 }
 

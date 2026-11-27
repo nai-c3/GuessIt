@@ -254,11 +254,17 @@
     } else {
       const stats = el('div', 'stat-row');
       const s1 = el('div', 'stat'); s1.append(el('div', 'v', fmtFor(q)(me.lastGuess)), el('div', 'l', 'Deine Schätzung'));
-      const s2 = el('div', 'stat'); s2.append(el('div', 'v', `#${me.lastPlace}`), el('div', 'l', 'Am nächsten dran'));
+      const closest = state.closest || [];
+      const iWon = closest.some((c) => c.id === me.id);
+      const others = closest.filter((c) => c.id !== me.id).map((c) => c.name);
+      const winnerText = iWon ? (others.length ? `Du & ${others.join(' & ')}` : 'Du!') : others.join(' & ') || '–';
+      const s2 = el('div', 'stat'); s2.append(el('div', 'v name', winnerText), el('div', 'l', 'Am nächsten dran'));
       stats.append(s1, s2);
       const badge = el('div', 'points-badge', `+${fmt(me.lastPoints)} Punkte`);
       badge.style.marginTop = '16px';
-      card.append(stats, badge);
+      const myPlace = el('p', 'muted', `Du warst #${me.lastPlace} von ${state.guessCount}`);
+      myPlace.style.marginTop = '12px';
+      card.append(stats, badge, myPlace);
       if (me.lastPlace === 1) setTimeout(() => confetti(120, { x: 0.5, y: 0.3 }), 1400);
     }
     const info = q.info ? el('p', 'tagline', q.info) : null;
