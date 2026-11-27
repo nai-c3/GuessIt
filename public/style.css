@@ -99,7 +99,7 @@ body::after {
 
 /* Collage-Grafiken auf dem Handy */
 .screen .deco { width: 34%; max-width: 180px; right: -6%; top: 2%; transform: rotate(8deg); }
-.screen .deco.jar { top: -2%; right: -4%; width: 30%; }
+.screen .deco.jar { top: -6%; right: -3%; width: 21%; }
 .screen .deco.tree { top: auto; bottom: 0; right: -8%; width: 32%; }
 .screen .deco.stopwatch { top: auto; bottom: 2%; right: -6%; width: 30%; transform: rotate(-10deg); }
 .screen .deco.trophy { position: relative; display: block; margin: 0 auto; right: auto; top: auto; width: 34%; transform: rotate(-5deg); }

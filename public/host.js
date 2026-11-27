@@ -100,6 +100,8 @@
   function render() {
     if (!state) return;
     const { phase, qIndex, total } = state;
+    // In der Lobby steht das große Logo – das kleine oben links ausblenden
+    $('topLogo').style.visibility = phase === 'lobby' ? 'hidden' : '';
 
     // Kopfzeile
     const online = state.players.filter((p) => p.online).length;

@@ -54,6 +54,7 @@
   }
 
   function showJoin(errorText) {
+    document.getElementById('headerLogo').style.visibility = 'hidden'; // großes Logo im Anmeldebildschirm
     meChip.classList.add('hidden');
     progress.classList.add('hidden');
     const logo = el('div', 'logo hero-logo');
@@ -98,6 +99,7 @@
     const secret = state.hideLeaderboardFrom && phase !== 'lobby' && qIndex + 1 >= state.hideLeaderboardFrom;
     meChip.textContent = secret ? me.name : `${me.name} · ${fmt(me.score)} P`;
     meChip.classList.remove('hidden');
+    document.getElementById('headerLogo').style.visibility = '';
 
     const inGame = phase !== 'lobby';
     progress.classList.toggle('hidden', !inGame);
@@ -140,7 +142,7 @@
     const howto = el('div', 'card');
     howto.innerHTML = `
       <div class="kicker" style="margin-bottom:8px">So geht's</div>
-      <p class="muted" style="line-height:1.5">Schätze bei jeder Frage eine Zahl. Je näher du dran bist, desto mehr Punkte – die drei besten Schätzungen bekommen einen Bonus. Die Leinwand zeigt nach jeder Runde den Zwischenstand.</p>`;
+      <p class="muted" style="line-height:1.5">Schätze bei jeder Frage eine Zahl. Je näher du dran bist, desto mehr Punkte – die drei besten Schätzungen bekommen einen Bonus. Bis Frage 10 zeigt die Leinwand nach jeder Runde den Zwischenstand – danach bleibt es bis zum Finale geheim.</p>`;
     setView('lobby', [card, dots, info, howto]);
     updateLobby();
   }
