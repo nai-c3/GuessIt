@@ -258,7 +258,7 @@
     const online = Math.max(1, state.connectedCount);
     const c = $('ansCount');
     if (!c) return;
-    c.textContent = `${state.answeredCount} / ${state.connectedCount}`;
+    c.textContent = `${state.answeredCount} / ${Math.max(state.connectedCount, state.answeredCount)}`;
     $('ansBar').style.width = `${Math.min(100, (state.answeredCount / online) * 100)}%`;
     // Timer neu starten, falls Zeit verlängert wurde
     cancelAnimationFrame(timerRaf);

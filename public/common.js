@@ -15,13 +15,23 @@
     if (!s) return null;
     const mmss = s.match(/^(\d+):([0-5]?\d)$/);           // 1:20 -> 80 (Minuten:Sekunden)
     if (mmss) return Number(mmss[1]) * 60 + Number(mmss[2]);
+    // Zahlwörter am Ende: "1 Mio", "1,2 Mio.", "350 Tsd", "2k", "1 Mrd"
+    let factor = 1;
+    const word = s.toLowerCase().match(/^(.*?\d)(millionen|million|mio\.?|milliarden|milliarde|mrd\.?|tausend|tsd\.?|k)$/);
+    if (word) {
+      s = word[1];
+      const w = word[2];
+      factor = /^(mrd|milliard)/.test(w) ? 1e9 : /^(mio|million)/.test(w) ? 1e6 : 1e3;
+    } else {
+      s = s.replace(/[a-zäöüß.²³%°]+$/i, (m) => (/^\.$/.test(m) ? m : ''));  // Einheit am Ende ignorieren: "80kg", "4170 km"
+    }
     if (s.includes(',')) {
       s = s.replace(/\./g, '').replace(',', '.');           // 1.234,5 -> 1234.5
     } else if (/^-?\d{1,3}(\.\d{3})+$/.test(s)) {
       s = s.replace(/\./g, '');                              // 384.400 -> 384400
     }
     if (!/^-?\d+(\.\d+)?$/.test(s)) return null;
-    const n = Number(s);
+    const n = Number(s) * factor;
     return isFinite(n) ? n : null;
   }
 

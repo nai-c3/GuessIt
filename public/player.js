@@ -94,7 +94,9 @@
     if (!state || !myId || !state.me) return;
     const { phase, qIndex, total, me } = state;
 
-    meChip.textContent = `${me.name} · ${fmt(me.score)} P`;
+    // Ab der „geheimen“ Phase keinen Punktestand mehr zeigen, damit es spannend bleibt
+    const secret = state.hideLeaderboardFrom && phase !== 'lobby' && qIndex + 1 >= state.hideLeaderboardFrom;
+    meChip.textContent = secret ? me.name : `${me.name} · ${fmt(me.score)} P`;
     meChip.classList.remove('hidden');
 
     const inGame = phase !== 'lobby';
